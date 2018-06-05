@@ -22,11 +22,20 @@ public class SortTest {
 		}
 		return java.util.Arrays.equals(result, t.expectedResult);
 	}
+	
+	static boolean testMergeSort2(TestContents t) {
+		int[] result = Sort.mergeSort2(t.input);
+		if (outPutEnabled) {
+			System.out.println("Input: " + Arrays.toString(t.input) + "   Expected: " + Arrays.toString(t.expectedResult) + "   Actual: " + Arrays.toString(result));
+		}
+		return java.util.Arrays.equals(result, t.expectedResult);
+	}
 
 	static void runtest() {
 		// toggle for output when analysing failed test cases
 		outPutEnabled = false;
 		TestContents[] tests = {
+				new TestContents(new int[] {5, 4, 3, 2, 1},new int[] {1, 2, 3, 4, 5}),
 				new TestContents(new int[] {1, 2, 3},new int[] {1, 2, 3}),
 				new TestContents(new int[] {3, 2, 1},new int[] {1, 2, 3}),
 				new TestContents(new int[] {4, 2, 1, 3},new int[] {1, 2, 3, 4}),
@@ -35,6 +44,9 @@ public class SortTest {
 
 		for (TestContents t : tests) {
 			if (!testMergeSort1(t)) {
+				System.out.println("Failure in MergeSort1 for test case " + t);
+			}
+			if (!testMergeSort2(t)) {
 				System.out.println("Failure in MergeSort1 for test case " + t);
 			}
 		}

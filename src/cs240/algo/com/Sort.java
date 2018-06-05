@@ -3,6 +3,41 @@ package cs240.algo.com;
 import java.util.Arrays;
 
 public class Sort {
+	/* 
+	 * Summary of algorithms:
+	 * 		mergeSort1 -	Given an int array A, merge sort recursively in nlogn
+	 * 		mergeSort2 -		Given an int array A, merge sort iteratively (non-
+	 * 						recursively) in nlogn
+	 */
+	
+	/* Iterative in-place mergesort */
+	public static int[] mergeSort2(int[] input) {
+		int[] result = input.clone();
+		if (result.length < 2) return result;
+		
+		/* 
+		 * By iterating over the length of sub-arrays (from 1 to total length), 
+		 * and then iterating through the sub-arrays at each stage, two nested
+		 * loops can be used to replicate the effect of a recursive call without
+		 * explicitly recursing
+		 */
+		for (int subArrayLength = 1; subArrayLength < result.length; subArrayLength *= 2) {
+			
+			for (int startIndex = 0; startIndex < result.length + subArrayLength; startIndex += 2 * subArrayLength) {
+				if (startIndex + subArrayLength < result.length) {
+					int rightArrayLength = Math.min(subArrayLength, result.length - (startIndex + subArrayLength)); 
+					int[] left = new int[subArrayLength];
+					int[] right = new int[rightArrayLength];
+					System.arraycopy(result, startIndex, left, 0, subArrayLength);
+					System.arraycopy(result, startIndex + subArrayLength, right, 0, rightArrayLength);
+					int[] mergeResult = merge1(left, right);
+					System.arraycopy(mergeResult, 0, result, startIndex, subArrayLength + rightArrayLength);
+				}
+			}
+		}
+		return result;
+	}
+	
 
 	/* Top-down mergesort */
 	public static int[] mergeSort1(int[] input) {
